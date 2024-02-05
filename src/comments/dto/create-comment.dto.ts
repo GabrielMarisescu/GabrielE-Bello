@@ -6,5 +6,7 @@ export class CreateCommentDto {
   text: string;
   @IsString()
   @IsNotEmpty()
+  userId: string;
+
   parentId: null | string;
 }
