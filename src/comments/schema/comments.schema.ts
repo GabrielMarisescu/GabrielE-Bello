@@ -1,12 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { User } from 'src/users/schemas/user.schema';
 
-export type userDocument = HydratedDocument<User>;
+export type userDocument = HydratedDocument<Comment>;
 
-@Schema()
-export class User {
+@Schema({ timestamps: true })
+export class Comment {
   @Prop()
-  name: string;
+  text: string;
+  @Prop()
+  likes: number;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  user: User;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
+  parent: Comment | null;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const CommentSchema = SchemaFactory.createForClass(Comment);
